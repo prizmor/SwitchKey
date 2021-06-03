@@ -1,0 +1,23 @@
+$textColor: #C4C4C4;
+$backgroundColor: #202225;
+$barsColor: #2F2F2F;
+$logoColor: #3C3C3C;
+$shadowColor: #1D1D1D;
+$buttonColor: #222222;
+$textFieldColor: #444242;
+
+$errTextColor: #FF6262;
+$writtenTextColor: #FFFFFF;
+
+:export {
+  textColor: $textColor;
+  backgroundColor: $backgroundColor;
+  barsColor: $barsColor;
+  logoColor: $logoColor;
+  shadowColor: $shadowColor;
+  buttonColor: $buttonColor;
+  textFieldColor: $textFieldColor;
+
+  errTextColor: $errTextColor;
+  writtenTextColor: $writtenTextColor;
+}
