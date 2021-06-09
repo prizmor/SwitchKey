@@ -1,0 +1,46 @@
+.startDisplay {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  .logo {
+    margin-top: 459px;
+    width: 662px;
+    height: 334px;
+    h1 {
+      width: 100%;
+      font-size: 120px;
+      text-align: center;
+      animation-name: logo;
+      animation-duration: 5s;
+    }
+    span {
+      display: block;
+      margin-top: 140px;
+      width: 100%;
+      text-align: center;
+      animation-name: next;
+      animation-duration: 3s;
+      opacity: 0.5;
+    }
+  }
+}
+
+@keyframes logo {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes next {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.50;
+  }
+}

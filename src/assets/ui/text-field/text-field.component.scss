@@ -1,0 +1,10 @@
+@import "../../export";
+
+input {
+  background: $textFieldColor;
+  height: 25px;
+  width: 120px;
+  border: none;
+  border-radius: 5px;
+  color: $textColor;
+}

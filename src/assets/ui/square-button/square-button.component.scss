@@ -1,0 +1,31 @@
+@import "../../export";
+
+button {
+  margin: 4px;
+  cursor: pointer;
+  border: none;
+  border-bottom: 1px solid $shadowColor;
+  color: $textColor;
+  border-radius: 10px;
+  min-height: 56px;
+  min-width: 56px;
+  background: $buttonColor;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    text-transform: capitalize;
+  }
+  &:hover {
+    background: #2a2a2a;
+  }
+  &:active {
+    font-size: 28px;
+  }
+}
+
+.opacity {
+  background: rgba(0, 0, 0, 0);
+  border: none;
+}

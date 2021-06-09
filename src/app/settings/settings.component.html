@@ -1,0 +1,43 @@
+<div class="settings">
+  <div class="nav">
+    <nav>
+      <div class="title">
+        НАСТРОЙКИ
+      </div>
+      <div class="item">
+        История
+      </div>
+    </nav>
+  </div>
+  <div class="main">
+    <div class="title">
+      Истроия
+      <div class="close">
+        <img src="./assets/ui/icon/close.svg" (click)="closeSettings()" alt="">
+      </div>
+    </div>
+    <div class="items">
+      <div *ngFor="let item of svc.history; index as i " (click)="openText(i)" class="item">
+        <div class="left">
+          <div class="name">
+            {{item.name}}
+          </div>
+          <div class="time">
+            Время: {{item.time}}
+          </div>
+          <div class="err">
+            Ошибки: {{item.err}}
+          </div>
+        </div>
+        <div class="right">
+          <div class="data">
+            {{item.date}}
+          </div>
+          <div class="close">
+            <img src="./assets/ui/icon/close.svg" (click)="svc.deleteHistoryItem(i)" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

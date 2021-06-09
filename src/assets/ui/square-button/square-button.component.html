@@ -1,0 +1,7 @@
+<button (click)="onClick(id)" [class.opacity]="opacity">
+  <span *ngIf="type == 'text'" class="text">{{text}}</span>
+  <span *ngIf="type == 'icon'">
+    <img *ngIf="icon == 'plus'" src="assets/ui/icon/plus.svg" alt="">
+    <img *ngIf="icon == 'settings'" src="assets/ui/icon/settings.svg" alt="">
+  </span>
+</button>

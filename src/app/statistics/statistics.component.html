@@ -1,0 +1,21 @@
+<div class="statistics">
+  <div class="container">
+    <div class="stat">
+      <div class="item">
+        <span class="title">Время</span>
+        <span class="count">{{svc.statistics.time}}</span>
+      </div>
+      <div class="item">
+        <span class="title">Ошибки</span>
+        <span class="count">{{svc.statistics.err}}</span>
+      </div>
+      <div class="item">
+        <span class="title">Написано букв</span>
+        <span class="count">{{svc.statistics.litterCount}}</span>
+      </div>
+    </div>
+    <div class="button">
+      <app-button [colorType]="'white'" [onClick]="onClick" [text]="'Пропустить'"></app-button>
+    </div>
+  </div>
+</div>

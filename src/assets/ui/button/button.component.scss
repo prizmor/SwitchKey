@@ -1,0 +1,34 @@
+@import "../../export";
+
+button {
+  height: 28px;
+  min-width: 110px;
+  padding: 0 20px;
+  border: none;
+  border-bottom: 1px solid $shadowColor;
+  background: $buttonColor;
+  color: $textColor;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  &:hover {
+    background: #2a2a2a;
+  }
+  &:active {
+    font-size: 16px;
+  }
+}
+
+.dark {
+  background: $buttonColor;
+  &:hover {
+    background: #2a2a2a;
+  }
+}
+
+.white {
+  background: $barsColor;
+  &:hover {
+    background: #262626;
+  }
+}

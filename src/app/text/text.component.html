@@ -1,0 +1,21 @@
+<div class="textPage">
+  <div class="time">
+    <div>
+      <div class="title">Время</div>
+      <div class="timer" *ngIf="svc.editMode;"><input (input)="onChangeTime($event)" [(ngModel)]="svc.activeTextData.time" type="number" min="0" max="3"></div>
+      <div class="timer" *ngIf="!svc.editMode;">{{svc.time}}</div>
+    </div>
+  </div>
+  <div class="textContainer">
+    <div>
+      <div class="title">Текст</div>
+      <div class="text" *ngIf="svc.editMode;"><textarea (input)="onChangeText()" [(ngModel)]="svc.activeTextData.text" maxlength="800"></textarea></div>
+      <div class="textActive" *ngIf="!svc.editMode;">
+        <ng-container  *ngFor="let word of svc.words; index as i; first as isFirst">
+          <span [classList]="word.type"><span [class.stick]="word.stick">{{word.litter}}</span></span>
+        </ng-container>
+      </div>
+      <div class="button" *ngIf="svc.editMode"><app-button [onClick]="onClick"  [colorType]="'white'" [text]="'Старт'"></app-button></div>
+    </div>
+  </div>
+</div>
