@@ -1,0 +1,35 @@
+<div class="auth">
+  <div *ngIf="type == 'login'" class="bar">
+    <div class="container">
+      <div class="title">Вход</div>
+      <form>
+        <div class="text"><app-text-field [(value)]="svc.loginValue" [placeholder]="'Логин'"></app-text-field></div>
+        <div class="error">{{svc.errorsFormAuth.login}}</div>
+        <div class="text"><app-text-field [(value)]="svc.passwordValue" [placeholder]="'Пароль'"></app-text-field></div>
+        <div class="error">{{svc.errorsFormAuth.password}}</div>
+        <div class="button"><app-button (click)="login()" [text]="'Войти'" class="button"></app-button></div>
+        <div class="error">{{svc.errorsFormAuth.api}}</div>
+        <div class="type" (click)="setType()">Нет аккаунта?</div>
+      </form>
+    </div>
+  </div>
+  <div *ngIf="type == 'register'" class="bar">
+    <div class="container">
+      <div class="title">Регистрация</div>
+      <form>
+        <div class="text"><app-text-field [(value)]="svc.loginValue" [placeholder]="'Логин'"></app-text-field></div>
+        <div class="error">{{svc.errorsFormAuth.login}}</div>
+        <div class="text"><app-text-field [(value)]="svc.passwordValue" [placeholder]="'Пароль'"></app-text-field></div>
+        <div class="error">{{svc.errorsFormAuth.password}}</div>
+        <div class="button"><app-button (click)="register()" [text]="'Зарегистрироватся'" class="button"></app-button></div>
+        <div class="error">{{svc.errorsFormAuth.api}}</div>
+        <div class="type" (click)="setType()">Есть аккаунт?</div>
+      </form>
+    </div>
+  </div>
+  <div class="logo">
+    <div>
+      SWITCHKEY
+    </div>
+  </div>
+</div>

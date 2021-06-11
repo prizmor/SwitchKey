@@ -13,6 +13,9 @@ export class ButtonComponent implements OnInit {
   constructor(public svc: DataService, public router: Router) { }
 
   ngOnInit(): void {
+    this.onClick = () => {
+      return
+    };
   }
 
   @Input() onClick;

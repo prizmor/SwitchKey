@@ -95,7 +95,7 @@ class controller {
   }
   async deleteHistory(req, res) {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       if (!id) {
         return res.status(400).json({message: `Не переданы параметры`});
       }
@@ -104,8 +104,8 @@ class controller {
       if (!user) {
         return res.status(500).json(`server error`);
       }
-      const historyIndex = user.history.findIndex(x => x.id === idHistory);
-      if (idHistory < 0) {
+      const historyIndex = user.history.findIndex(x => x.id === id);
+      if (historyIndex < 0) {
         return res.status(400).json(`Не вырный ID`);
       }
       user.history.splice(historyIndex, 1);
@@ -154,7 +154,7 @@ class controller {
         return res.status(500).json(`server error`);
       }
       const text = user.text.find(x => x.id === req.params.id);
-      if (textIndex < 0) {
+      if (text < 0) {
         return res.status(400).json({message: `Не верный ID`
       });
       }
@@ -205,7 +205,7 @@ class controller {
   }
   async deleteText(req, res) {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
       if (!id) {
         return res.status(400).json({message: `Не переданы параметры`});
       }

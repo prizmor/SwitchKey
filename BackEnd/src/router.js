@@ -12,14 +12,14 @@ router.post('/register', [
 router.post('/login', controller.login);//
 //истроия
 router.post('/history', loginMiddleware, controller.postHistory);//
-router.delete('/history', loginMiddleware, controller.deleteHistory);//
+router.delete('/history/:id', loginMiddleware, controller.deleteHistory);//
 router.get('/history', loginMiddleware, controller.getHistory);//
 //текст
 router.get('/text/:id', loginMiddleware, controller.getTextById);//
 router.get('/text', loginMiddleware, controller.getAllText);//
 router.post('/text', loginMiddleware, controller.postAddText);//
 router.put('/text', loginMiddleware, controller.putText);//
-router.delete('/text', loginMiddleware, controller.deleteText);//
+router.delete('/text/:id', loginMiddleware, controller.deleteText);//
 
 
 module.exports = router;

@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {timer} from "rxjs";
 import {takeWhile, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from "@angular/router";
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,10 +27,18 @@ export class DataService {
   statistics: any;
   counter = 0;
   err = 0;
+  public loginValue = '';
+  public passwordValue = '';
+  errorsFormAuth = {
+    login: '',
+    password: '',
+    api: ''
+  };
 
-  constructor(private router: Router ,private activatedRoute: ActivatedRoute) { }
+  constructor(private router: Router ,private activatedRoute: ActivatedRoute, private api: ApiService ) { }
 
   isInit(): void {
+    this.api.deleteHistory(`439cc7f9-7b70-4a90-a419-360c9056c000`);
     const items = localStorage.getItem('items');
     const history = localStorage.getItem('history');
     if (!history) {
@@ -125,7 +134,7 @@ export class DataService {
 
   setHistory(item: any): void {
     item.name = this.activeTextData.name;
-    item.date =  this.getDate();``
+    item.date =  this.getDate();
     item.id =  this.activeTextData.id;
     const history = JSON.parse(localStorage.getItem('history'));
     history.unshift(item);
@@ -157,5 +166,15 @@ export class DataService {
     localStorage.setItem('items', JSON.stringify(items));
     this.items = JSON.parse(localStorage.getItem('items'));
     this.router.navigate(['/text/' + text.id]);
+  }
+
+  login() {
+    this.api.login(this.loginValue, this.passwordValue).then(response => {
+
+    });
+    debugger
+  }
+  register(): void {
+
   }
 }

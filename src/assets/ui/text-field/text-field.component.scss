@@ -3,8 +3,9 @@
 input {
   background: $textFieldColor;
   height: 25px;
-  width: 120px;
+  width: 100%;
   border: none;
   border-radius: 5px;
   color: $textColor;
+  padding: 2px 5px;
 }

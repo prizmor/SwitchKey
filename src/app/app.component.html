@@ -1,5 +1,5 @@
 <div class="app">
-  <div [class.hidden]="router.url == '/start' || router.url == '/settings'" [class.flex]="router.url != '/start' && router.url != '/settings'" class="header">
+  <div [class.hidden]="router.url == '/start' || router.url == '/settings' || router.url == '/auth'" [class.flex]="router.url != '/start' && router.url != '/settings' && router.url != '/auth'" class="header">
     <div class="logo">
       <span>
         SK
@@ -11,8 +11,8 @@
       </span>
     </div>
   </div>
-  <div [class.flex]="router.url != '/start' && router.url != '/settings'" class="leftBar-main">
-    <div [class.hidden]="router.url == '/start' || router.url == '/settings'" [class.flex]="router.url != '/start' && router.url != '/settings'" *ngIf="svc.counter == 0" class="leftBar">
+  <div [class.flex]="router.url != '/start' && router.url != '/settings' && router.url != '/auth'" class="leftBar-main">
+    <div [class.hidden]="router.url == '/start' || router.url == '/settings' || router.url == '/auth'" [class.flex]="router.url != '/start' && router.url != '/settings' && router.url != '/auth'" *ngIf="svc.counter == 0" class="leftBar">
       <div class="top">
         <span *ngFor="let item of svc.items;"><app-square-button [onClick]="openText" [id]="item.id" [type]="'text'" [text]="item.name"></app-square-button></span>
         <app-square-button [onClick]="addTextClick" [type]="'icon'" [icon]="'plus'" [opacity]="false"></app-square-button>
@@ -21,7 +21,7 @@
         <app-square-button [type]="'icon'" [icon]="'settings'" [onClick]="openSettings" [opacity]="true"></app-square-button>
       </div>
     </div>
-    <div [class.width]="router.url != '/start' && router.url != '/settings'">
+    <div [class.width]="router.url != '/start' && router.url != '/settings' && router.url != '/auth'">
       <router-outlet></router-outlet>
     </div>
   </div>

@@ -24,6 +24,7 @@ import { VoidComponent } from './void/void.component';
 import { TextComponent } from './text/text.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { SettingsComponent } from './settings/settings.component';
+import { AuthComponent } from './auth/auth.component';
 
 
 // AoT requires an exported function for factories
@@ -37,11 +38,12 @@ const appRoutes: Routes =[
   { path: '', component: VoidComponent},
   { path: 'text/:id', component: TextComponent},
   { path: 'statistics', component: StatisticsComponent},
-  { path: 'settings', component: SettingsComponent}
+  { path: 'settings', component: SettingsComponent},
+  { path: 'auth', component: AuthComponent}
 ];
 
 @NgModule({
-  declarations: [AppComponent, TextFieldComponent, ButtonComponent, SquareButtonComponent, StartDisplayComponent, AddTextComponent, VoidComponent, TextComponent, StatisticsComponent, SettingsComponent],
+  declarations: [AppComponent, TextFieldComponent, ButtonComponent, SquareButtonComponent, StartDisplayComponent, AddTextComponent, VoidComponent, TextComponent, StatisticsComponent, SettingsComponent, AuthComponent],
   imports: [
     BrowserModule,
     FormsModule,
