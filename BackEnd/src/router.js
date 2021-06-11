@@ -11,15 +11,15 @@ router.post('/register', [
 ], controller.register);//
 router.post('/login', controller.login);//
 //истроия
-router.post('/history', loginMiddleware, controller.postHistory);
-router.delete('/history', loginMiddleware, controller.deleteHistory);
-router.get('/history', loginMiddleware, controller.getHistory);
+router.post('/history', loginMiddleware, controller.postHistory);//
+router.delete('/history', loginMiddleware, controller.deleteHistory);//
+router.get('/history', loginMiddleware, controller.getHistory);//
 //текст
 router.get('/text/:id', loginMiddleware, controller.getTextById);//
-router.get('/allText', loginMiddleware, controller.getAllText);//
-router.post('/addText', loginMiddleware, controller.postAddText);//
+router.get('/text', loginMiddleware, controller.getAllText);//
+router.post('/text', loginMiddleware, controller.postAddText);//
 router.put('/text', loginMiddleware, controller.putText);//
-router.delete('/deleteText', loginMiddleware, controller.deleteText);//
+router.delete('/text', loginMiddleware, controller.deleteText);//
 
 
 module.exports = router;
