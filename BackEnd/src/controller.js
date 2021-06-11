@@ -5,11 +5,17 @@ const jwt = require('jsonwebtoken');
 const { secret } = require('./config');
 const { v4: uuidv4 } = require('uuid');
 
+
 const generateToken = (userId) => {
   const payload = {
     userId
   };
   return jwt.sign(payload, secret, {expiresIn: '24h'});
+}
+
+const formattedDate = (d = new Date) => {
+  return [d.getDate(), d.getMonth()+1, d.getFullYear()]
+    .map(n => n < 10 ? `0${n}` : `${n}`).join('/');
 }
 
 class controller {
@@ -54,8 +60,26 @@ class controller {
 
   async postHistory(req, res) {
     try {
-      const { idText, err, litters } = req.body;
-      const user = req.user;
+      const { idText, err, litters, time } = req.body;
+      if (!idText || !err || !litters || !time) {
+        return res.status(400).json(`history params err`);
+      }
+      const userId = req.user.userId;
+      const user = await User.findOne({_id: userId});
+      if (!user) {
+        return res.status(500).json(`server error`);
+      }
+      const pattern = {
+        idText,
+        err,
+        litters,
+        time,
+        date: formattedDate(),
+        id: uuidv4()
+      };
+      user.history.unshift(pattern);
+      await user.save();
+      return res.status(200).json("ok");
     } catch (e) {
       console.log(e);
       res.status(400).json({message: 'History error'});
@@ -79,8 +103,8 @@ class controller {
   }
   async getTextById(req, res) {
     try {
-      const userId = req.user.id;
-      const user = await User.findOne({userId});
+      const userId = req.user.userId;
+      const user = await User.findOne({_id: userId});
       if (!user) {
         return res.status(500).json(`server error`);
       }
@@ -96,8 +120,8 @@ class controller {
   }
   async getAllText(req, res) {
     try {
-      const userId = req.user.id;
-      const user = await User.findOne({userId});
+      const userId = req.user.userId;
+      const user = await User.findOne({_id: userId});
       if (!user) {
         return res.status(500).json(`server error`);
       }
@@ -111,8 +135,8 @@ class controller {
   async postAddText(req, res) {
     try {
       const { name } = req.body;
-      const userId = req.user.id;
-      const user = await User.findOne({userId});
+      const userId = req.user.userId;
+      const user = await User.findOne({_id: userId});
       if (!user) {
         return res.status(500).json(`server error`);
       }
@@ -133,8 +157,8 @@ class controller {
   async deleteText(req, res) {
     try {
       const { idText } = req.body;
-      const userId = req.user.id;
-      const user = await User.findOne({userId});
+      const userId = req.user.userId;
+      const user = await User.findOne({_id: userId});
       if (!user) {
         return res.status(500).json(`server error`);
       }
@@ -152,30 +176,29 @@ class controller {
   }
   async putText(req, res) {
     try {
-      const { id, text, time } = req.body;
-      const userId = req.user.id;
-      const user = await User.findOne({userId});
+      const { id, text, time, name } = req.body;
+      const userId = req.user.userId;
+      const user = await User.findOne({_id: userId});
       if (!user) {
         return res.status(500).json(`server error`);
       }
       const textIndex = user.text.findIndex(x => x.id === id);
+      const textByIndex = {...user.text[textIndex]};
       if (textIndex < 0) {
         return res.status(400).json(`id err`);
       }
       if (text) {
-        user.text[textIndex].text = text;
+        textByIndex.text = text;
+      }
+      if (name) {
+        textByIndex.name = name;
       }
       if (time) {
-        user.text[textIndex].time = Number(time);
-        console.log(textIndex)
+        textByIndex.time = Number(time);
       }
-      await user.save().then(resl => {
-        try {
-          return res.status(200).json(user.text[textIndex]);
-        } catch (e) {
-          console.log(e)
-        }
-      });
+      user.text.splice(textIndex, 1, textByIndex);
+      await user.save()
+      return res.status(200).json(textByIndex);
     } catch (e) {
       console.log(e);
       res.status(400).json({message: 'Text error'});
