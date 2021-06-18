@@ -1,0 +1,14 @@
+<app-square-button [type]="'icon'" [icon]="'human'" (click)="friends = !friends" [opacity]="true"></app-square-button>
+<div *ngIf="friends" class="friends">
+  <div class="search">
+    <input type="text" placeholder="Поиск">
+  </div>
+  <div class="friendsList">
+    <div class="item">
+      <div class="name">
+        Prizmor
+      </div>
+      <div class="statusGreen"></div>
+    </div>
+  </div>
+</div>

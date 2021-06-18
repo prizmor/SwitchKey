@@ -1,0 +1,48 @@
+@import "../../assets/export";
+
+.button {
+  margin-right: 5px;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge */
+  user-select: none;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  .dots {
+    cursor: pointer;
+    display: flex;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      background: rgba(92, 92, 92, 0.24);
+    }
+  }
+  .settingsModal {
+    display: flex;
+    position: absolute;
+    width: 200px;
+    background: $barsColor;
+    border-radius: 10px;
+    top: 49px;
+    left: 25px;
+    padding: 8px 0;
+    .exit {
+      font-size: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 34px;
+      width: 100%;
+      color: $errTextColor;
+      &:hover {
+        background: rgba(196, 196, 196, 0.09);
+      }
+    }
+  }
+}

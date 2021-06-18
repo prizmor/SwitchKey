@@ -1,30 +1,32 @@
 <div class="auth">
-  <div *ngIf="type == 'login'" class="bar">
+  <div *ngIf="activatedRoute.snapshot.params.type == 'login'" class="bar">
     <div class="container">
       <div class="title">Вход</div>
-      <form>
-        <div class="text"><app-text-field [(value)]="svc.loginValue" [placeholder]="'Логин'"></app-text-field></div>
+      <div class="form">
+        <div><input class="text" type="text" [(ngModel)]="svc.loginValue" placeholder="Логин"></div>
         <div class="error">{{svc.errorsFormAuth.login}}</div>
-        <div class="text"><app-text-field [(value)]="svc.passwordValue" [placeholder]="'Пароль'"></app-text-field></div>
+        <div><input class="text" type="password" [(ngModel)]="svc.passwordValue" placeholder="Пароль"></div>
         <div class="error">{{svc.errorsFormAuth.password}}</div>
-        <div class="button"><app-button (click)="login()" [text]="'Войти'" class="button"></app-button></div>
+        <div class="button"><input type="button" (click)="login()" value="Войти" class="button"/></div>
         <div class="error">{{svc.errorsFormAuth.api}}</div>
-        <div class="type" (click)="setType()">Нет аккаунта?</div>
-      </form>
+        <div class="type" (click)="setType(activatedRoute.snapshot.params.type)">Нет аккаунта?</div>
+      </div>
     </div>
   </div>
-  <div *ngIf="type == 'register'" class="bar">
+  <div *ngIf="activatedRoute.snapshot.params.type == 'register'" class="bar">
     <div class="container">
       <div class="title">Регистрация</div>
-      <form>
-        <div class="text"><app-text-field [(value)]="svc.loginValue" [placeholder]="'Логин'"></app-text-field></div>
+      <div class="form">
+        <div><input class="text" [(ngModel)]="svc.loginValue" placeholder="Логин"></div>
         <div class="error">{{svc.errorsFormAuth.login}}</div>
-        <div class="text"><app-text-field [(value)]="svc.passwordValue" [placeholder]="'Пароль'"></app-text-field></div>
+        <div><input class="text" [(ngModel)]="svc.emailValue" placeholder="Почта"></div>
+        <div class="error">{{svc.errorsFormAuth.email}}</div>
+        <div><input class="text" type="password" [(ngModel)]="svc.passwordValue" placeholder="Пароль"></div>
         <div class="error">{{svc.errorsFormAuth.password}}</div>
         <div class="button"><app-button (click)="register()" [text]="'Зарегистрироватся'" class="button"></app-button></div>
         <div class="error">{{svc.errorsFormAuth.api}}</div>
-        <div class="type" (click)="setType()">Есть аккаунт?</div>
-      </form>
+        <div class="type" (click)="setType(activatedRoute.snapshot.params.type)">Есть аккаунт?</div>
+      </div>
     </div>
   </div>
   <div class="logo">

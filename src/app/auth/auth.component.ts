@@ -1,19 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DataService} from "../data.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
 
-  type = 'login';
+  logins = 'adsasd';
 
-  constructor(public svc: DataService, public router: Router) { }
+  constructor(public svc: DataService, public router: Router, private activatedRoute: ActivatedRoute) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.svc.loginValue = '';
+    this.svc.passwordValue = '';
+    this.svc.emailValue = '';
+  }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy() {
+
   }
 
   login(): void {
@@ -21,6 +30,7 @@ export class AuthComponent implements OnInit {
     this.svc.errorsFormAuth = {
       login: '',
       password: '',
+      email: '',
       api: ''
     };
     if (this.svc.loginValue.length == 0) {
@@ -37,10 +47,15 @@ export class AuthComponent implements OnInit {
   }
 
   register(): void {
+    function validateEmail(email) {
+      const re = /\S+@\S+\.\S+/;
+      return re.test(email);
+    }
     let error = false;
     this.svc.errorsFormAuth = {
       login: '',
       password: '',
+      email: '',
       api: ''
     };
     if (this.svc.loginValue.length == 0) {
@@ -57,6 +72,13 @@ export class AuthComponent implements OnInit {
       this.svc.errorsFormAuth.password = 'Не меньше 4 символов';
       error = true;
     }
+    if (this.svc.emailValue.length == 0) {
+      this.svc.errorsFormAuth.email = 'Обязательно';
+      error = true;
+    } else if (!validateEmail(this.svc.emailValue)) {
+      this.svc.errorsFormAuth.email = 'Некорректная почта';
+      error = true;
+    }
 
     if (!error) {
       this.svc.register();
@@ -64,18 +86,17 @@ export class AuthComponent implements OnInit {
 
   }
 
-  setType(): void {
+  setType(type): void {
     this.svc.errorsFormAuth = {
       login: '',
       password: '',
+      email: '',
       api: ''
     };
-    this.svc.loginValue = '';
-    this.svc.passwordValue = '';
-    if (this.type == 'login') {
-      this.type = 'register';
+    if (type == 'login') {
+      this.router.navigate(['auth/register']);
     } else {
-      this.type = 'login';
+      this.router.navigate(['auth/login']);
     }
   }
 

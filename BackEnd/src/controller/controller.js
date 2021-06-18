@@ -1,8 +1,8 @@
-const User = require('./modules/user');
+const User = require('../modules/user');
 const bcrypt = require('bcryptjs');
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
-const { secret } = require('./config');
+const { secret } = require('../config');
 const { v4: uuidv4 } = require('uuid');
 
 
@@ -15,7 +15,7 @@ const generateToken = (userId) => {
 
 const formattedDate = (d = new Date) => {
   return [d.getDate(), d.getMonth()+1, d.getFullYear()]
-    .map(n => n < 10 ? `0${n}` : `${n}`).join('/');
+    .map(n => n < 10 ? `0${n}` : `${n}`).join('.');
 }
 
 class controller {
@@ -25,8 +25,8 @@ class controller {
       if (!errors.isEmpty()) {
         return res.status(400).json(errors)
       }
-      const { login, password } = req.body;
-      if (!login || !password) {
+      const { login, password, email } = req.body;
+      if (!login || !password || !email) {
         return res.status(400).json({message: `Не переданы параметры`});
       }
       const candidate = await User.findOne({login});
@@ -34,7 +34,7 @@ class controller {
         return res.status(400).json({message: `Логин ${login} уже занят`});
       }
       const Password = bcrypt.hashSync(password, 7);
-      const user = new User({login: login, password: Password});
+      const user = new User({login: login, password: Password, email: email});
       await user.save();
       return res.status(200).json({message: 'OK'})
     } catch (e) {
@@ -59,19 +59,58 @@ class controller {
       });
       }
       const token = generateToken(user._id);
-      return res.status(200).json({token});
+      return res.status(200).json({token, login: user.login});
     } catch (e) {
       console.log(e);
       res.status(400).json({message: 'Login error'});
     }
   }
-
-  async postHistory(req, res) {
+  async getIdUserPasswordRecovery(req, res) {
     try {
-      const { idText, err, litters, time } = req.body;
-      if (!idText || !err || !litters || !time) {
+      const {login, email} = req.query;
+      if (!login || !email) {
+        console.log(login + ' ' + email);
         return res.status(400).json({message: `Не переданы параметры`});
       }
+        const user = await User.findOne({login});
+        if (!user) {
+          return res.status(400).json({message: `Логин ${login} не найден`});
+        }
+        if (user.email !== email) {
+          return res.status(400).json({message: `Почта ${email} не совподает`});
+        }
+        const idUser = bcrypt.hashSync(user.id, 7);
+        return res.status(200).json({idUser: idUser});
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({message: 'PasswordRecovery error'});
+    }
+  }
+  async passwordRecovery(req, res) {
+    try {
+      const {login, userId, password} = req.body;
+      if (!userId || !password || !login) {
+        return res.status(400).json({message: `Не переданы параметры`});
+      }
+      const user = await User.findOne({login});
+      if (!user) {
+        return res.status(400).json({message: `Логин ${login} не найден`});
+      }
+      const id = bcrypt.compareSync(user.id, userId)
+      if (!id) {
+        return res.status(400).json({message: `Не верный id`});
+      }
+      user.password = bcrypt.hashSync(password, 7);
+      await user.save();
+      return res.status(200).json({message: 'OK'});
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({message: 'PasswordRecovery error'});
+    }
+  }
+  async postHistory(req, res) {
+    try {
+      const { idText, err, litters, time, name } = req.body;
       const userId = req.user.userId;
       const user = await User.findOne({_id: userId});
       if (!user) {
@@ -79,6 +118,7 @@ class controller {
       }
       const pattern = {
         idText,
+        name,
         err,
         litters,
         time,
@@ -108,7 +148,11 @@ class controller {
       if (historyIndex < 0) {
         return res.status(400).json(`Не вырный ID`);
       }
-      user.history.splice(historyIndex, 1);
+      if (user.history.length == 1) {
+        user.history = [];
+      } else {
+        user.history.splice(historyIndex, 1);
+      }
       await user.save();
       return res.status(200).json({message: 'OK'})
     } catch (e) {
@@ -145,7 +189,6 @@ class controller {
       res.status(400).json({message: 'History error'});
     }
   }
-
   async getTextById(req, res) {
     try {
       const userId = req.user.userId;
@@ -197,7 +240,7 @@ class controller {
       }
       user.text.push(text);
       await user.save();
-      return res.status(200).json({message: 'OK'})
+      return res.status(200).json({id: text.id})
     } catch (e) {
       console.log(e);
       res.status(400).json({message: 'Text error'});
@@ -243,7 +286,7 @@ class controller {
       if (textIndex < 0) {
         return res.status(400).json({message: `Не верный ID`});
       }
-      if (text) {
+      if (text || text === '') {
         textByIndex.text = text;
       }
       if (name) {
@@ -258,6 +301,45 @@ class controller {
     } catch (e) {
       console.log(e);
       res.status(400).json({message: 'Text error'});
+    }
+  }
+  async friendRequests(req, res) {
+    try {
+      const userId = req.user.userId;
+      const user = await User.findOne({_id: userId});
+      if (!user) {
+        return res.status(500).json(`server error`);
+      }
+      return res.status(200).json({friendRequests: user.friendRequests})
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({message: 'Friends error'})
+    }
+  }
+  async getFriends(req, res) {
+    try {
+      const userId = req.user.userId;
+      const user = await User.findOne({_id: userId});
+      if (!user) {
+        return res.status(500).json(`server error`);
+      }
+      return res.status(200).json({friends: user.friends})
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({message: 'Friends error'})
+    }
+  }
+  async getMessage(req, res) {
+    try {
+      const userId = req.user.userId;
+      const user = await User.findOne({_id: userId});
+      if (!user) {
+        return res.status(500).json(`server error`);
+      }
+      return res.status(200).json({message: user.message})
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({message: 'Message error'})
     }
   }
 }

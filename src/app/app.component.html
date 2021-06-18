@@ -1,5 +1,19 @@
-<div class="app">
-  <div [class.hidden]="router.url == '/start' || router.url == '/settings' || router.url == '/auth'" [class.flex]="router.url != '/start' && router.url != '/settings' && router.url != '/auth'" class="header">
+<div *ngIf="socket.socketConnection" class="app">
+  <div [class.hidden]="
+  router.url == '/start'
+  || router.url == '/settings/user'
+  || router.url == '/settings/text'
+  || router.url == '/settings/history'
+  || router.url == '/settings/friends'
+  || router.url == '/auth/register'
+  || router.url == '/auth/login'" [class.flex]="
+  router.url != '/start'
+  && router.url != '/settings/user'
+  && router.url != '/settings/text'
+  && router.url != '/settings/history'
+  && router.url != '/settings/friends'
+  && router.url != '/auth/register'
+  && router.url != '/auth/login'" class="header">
     <div class="logo">
       <span>
         SK
@@ -10,20 +24,62 @@
         {{svc.activeTextData.name}}
       </span>
     </div>
+    <div class="session">
+      <div class="name">
+        {{login()}}
+        <div [class.statusGreen]="status" [class.statusGray]="!status"  (click)="isStatus()"></div>
+      </div>
+      <app-message></app-message>
+      <app-dots></app-dots>
+    </div>
   </div>
-  <div [class.flex]="router.url != '/start' && router.url != '/settings' && router.url != '/auth'" class="leftBar-main">
-    <div [class.hidden]="router.url == '/start' || router.url == '/settings' || router.url == '/auth'" [class.flex]="router.url != '/start' && router.url != '/settings' && router.url != '/auth'" *ngIf="svc.counter == 0" class="leftBar">
+  <div [class.flex]="
+  router.url != '/start'
+  && router.url != '/settings/user'
+  && router.url != '/settings/text'
+  && router.url != '/settings/history'
+  && router.url != '/settings/friends'
+  && router.url != '/auth/register'
+  && router.url != '/auth/login'" class="leftBar-main">
+    <div [class.hidden]="
+    router.url == '/start'
+    || router.url == '/settings/user'
+    || router.url == '/settings/text'
+    || router.url == '/settings/history'
+    || router.url == '/settings/friends'
+    || router.url == '/auth/register'
+    || router.url == '/auth/login'" [class.flex]="
+    router.url != '/start'
+    && router.url != '/settings/user'
+    && router.url != '/settings/text'
+    && router.url != '/settings/history'
+    && router.url != '/settings/friends'
+    && router.url != '/auth/login'
+    && router.url != '/auth/register'" *ngIf="svc.counter == 0" class="leftBar">
       <div class="top">
         <span *ngFor="let item of svc.items;"><app-square-button [onClick]="openText" [id]="item.id" [type]="'text'" [text]="item.name"></app-square-button></span>
         <app-square-button [onClick]="addTextClick" [type]="'icon'" [icon]="'plus'" [opacity]="false"></app-square-button>
       </div>
       <div class="bottom">
-        <app-square-button [type]="'icon'" [icon]="'settings'" [onClick]="openSettings" [opacity]="true"></app-square-button>
+        <app-friends></app-friends>
+        <app-square-button [type]="'icon'" [icon]="'settings'" (click)="openSettings()" [opacity]="true"></app-square-button>
       </div>
     </div>
-    <div [class.width]="router.url != '/start' && router.url != '/settings' && router.url != '/auth'">
+    <div [class.width]="
+    router.url != '/start'
+    && router.url != '/settings/user'
+    && router.url != '/settings/text'
+    && router.url != '/settings/history'
+    && router.url != '/settings/friends'
+    && router.url != '/auth/register'
+    && router.url != '/auth/login'">
       <router-outlet></router-outlet>
     </div>
+  </div>
+</div>
+<div *ngIf="!socket.socketConnection" class="disconnect">
+  <div class="text">
+    Вы отключены от сервера.
   </div>
 </div>
 

@@ -1,6 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {DataService} from "./data.service";
+import {SocketService} from "./socket.service";
+const { v4: uuidv4 } = require('uuid');
 
 
 @Component({
@@ -11,16 +13,20 @@ import {DataService} from "./data.service";
 export class AppComponent implements OnInit {
 
   textName = '';
+  settingsModal = false;
+  friends = false;
+  status = true;
+  message = true;
 
-  constructor(public router: Router, public svc: DataService) {
+  constructor(public router: Router, public svc: DataService, private  socket: SocketService) {
   }
 
   ngOnInit(): void {
-
     if (localStorage.getItem('token')) {
-      this.router.navigate(['/start']);
+      //this.router.navigate(['/start']);
+      this.socket.connect(localStorage.getItem('token'));
     } else {
-      this.router.navigate(['/auth']);
+      this.router.navigate(['/auth/login']);
     }
     this.svc.isInit();
   }
@@ -36,7 +42,23 @@ export class AppComponent implements OnInit {
   }
 
   openSettings(): void {
-    this.router.navigate(['/settings']);
+    this.router.navigate(['/settings/user']);
+  }
+
+  openFriends(): void {
+    this.friends = !this.friends;
+  }
+
+  login(): string {
+    return JSON.parse(localStorage.getItem('login'));
+  }
+
+  isStatus(): void {
+    this.status = !this.status;
+  }
+
+  isMessage(): void {
+    this.message = !this.message;
   }
 
   @HostListener('window:keydown',['$event'])

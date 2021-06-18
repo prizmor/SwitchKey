@@ -4,56 +4,84 @@
   width: 100vw;
   height: 100vh;
   .header {
-    animation-name: bars;
-    animation-duration: 2s;
+    //animation-name: bars;
+    //animation-duration: 2s;
     width: 100%;
-    height: 64px;
+    height: 44px;
     background: $barsColor;
     justify-content: space-between;
     .logo {
-      width: 64px;
-      height: 64px;
+      width: 44px;
+      height: 44px;
       background: $logoColor;
       display: flex;
       justify-content: center;
       align-items: center;
       span {
-        font-size: 36px;
+        font-size: 24px;
       }
     }
     .nameText {
-      width: calc(100% - 64px);
+      width: calc(100% - 44px);
       display: flex;
       align-items: center;
       justify-content: center;
       span {
-        animation-name: name;
-        animation-duration: 500ms;
+        //animation-name: name;
+        //animation-duration: 500ms;
+      }
+    }
+    .session{
+      position: absolute;
+      right: 0;
+      height: 44px;
+      width: 230px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      .statusGreen{
+        width: 10px;
+        height: 10px;
+        background: #26a526;
+        border-radius: 50%;
+        margin: 0 5px;
+      }
+      .statusGray {
+        width: 10px;
+        height: 10px;
+        background: gray;
+        border-radius: 50%;
+        margin: 0 5px;
+      }
+      .name {
+        display: flex;
+        align-items: center;
       }
     }
   }
   .leftBar-main {
     width: 100%;
-    height: calc(100% - 64px) ;
+    height: calc(100% - 44px);
     .leftBar {
-      animation-name: bars;
-      animation-duration: 2s;
-      width: 64px;
+      //animation-name: bars;
+      //animation-duration: 2s;
+      width: 44px;
       height: 100%;
       background: $barsColor;
       margin: 0;
       flex-direction: column;
       justify-content: space-between;
       .top {
-        width: 64px;
-        height: 64px;
+        width: 44px;
+        height: 44px;
         display: flex;
         flex-direction: column;
         align-items: center;
       }
       .bottom {
-        width: 64px;
-        height: 64px;
+        flex-direction: column;
+        width: 44px;
+        min-height: 44px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -67,7 +95,7 @@
 }
 
 .width {
-  width: calc(100% - 64px);
+  width: calc(100% - 44px);
   animation-name: bars;
   animation-duration: 2s;
 }
@@ -76,20 +104,29 @@
   display: none;
 }
 
-@keyframes bars {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+.disconnect {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(42, 42, 42, 0.52);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-@keyframes name {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
+//@keyframes bars {
+//  0% {
+//    opacity: 0;
+//  }
+//  100% {
+//    opacity: 1;
+//  }
+//}
+//
+//@keyframes name {
+//  0% {
+//    opacity: 0;
+//  }
+//  100% {
+//    opacity: 1;
+//  }
+//}

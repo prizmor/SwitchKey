@@ -7,10 +7,10 @@ button {
   border-bottom: 1px solid $shadowColor;
   color: $textColor;
   border-radius: 10px;
-  min-height: 56px;
-  min-width: 56px;
+  min-height: 34px;
+  min-width: 34px;
   background: $buttonColor;
-  font-size: 30px;
+  font-size: 18px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,9 +19,6 @@ button {
   }
   &:hover {
     background: #2a2a2a;
-  }
-  &:active {
-    font-size: 28px;
   }
 }
 

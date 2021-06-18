@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {DataService} from "../data.service";
 
 @Component({
@@ -9,14 +9,23 @@ import {DataService} from "../data.service";
 })
 export class SettingsComponent implements OnInit {
 
-  constructor(public router: Router, public svc: DataService) {
+  tabsFriends = 'friends';
+
+  constructor(public router: Router, public svc: DataService, public activatedRoute: ActivatedRoute) {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
   ngOnInit(): void {
   }
 
+  setTab(tab: string): void {
+    const url = '/settings/' + tab;
+    this.router.navigate([url]);
+  }
+
   openText(index: any): void {
-    this.router.navigate(['/text/' + this.svc.history[index].id]);
+    const url = '/text/' + this.svc.history[index].idText;
+    this.router.navigate([url]);
   }
 
   closeSettings(): void {
@@ -27,4 +36,7 @@ export class SettingsComponent implements OnInit {
     }
   }
 
+  setTabsFriends(tab: string): void {
+    this.tabsFriends = tab;
+  }
 }

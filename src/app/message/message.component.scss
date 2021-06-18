@@ -1,0 +1,74 @@
+@import "../../assets/export";
+
+.message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 44px;
+  width: 44px;
+  .bell {
+    display: flex;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+      background: rgba(92, 92, 92, 0.24);
+    }
+    .indicator {
+      width: 10px;
+      height: 10px;
+      background: orange;
+      font-size: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      top: 25px;
+      right: 50px;
+      border-radius: 50%;
+    }
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .messageModal {
+    background: #C4C4C4;
+    position: absolute;
+    top: 49px;
+    left: -125px;
+    display: flex;
+    width: 350px;
+    max-height: 500px;
+    background: $barsColor;
+    border-radius: 10px;
+    padding: 8px 0;
+    flex-direction: column;
+    .title {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      align-items: center;
+      height: 30px;
+    }
+    .items {
+      width: 100%;
+      height: calc(100% - 30px);
+      overflow: auto;
+      .item {
+        cursor: pointer;
+        border-top: #3E3E3E 1px solid;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:hover {
+          background: #363636;
+        }
+      }
+    }
+  }
+}

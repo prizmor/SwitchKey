@@ -4,37 +4,121 @@
       <div class="title">
         НАСТРОЙКИ
       </div>
-      <div class="item">
+      <div class="item" [class.active]="activatedRoute.snapshot.params.tab == 'user'" (click)="setTab('user')">
+        Профиль
+      </div>
+      <div class="item" [class.active]="activatedRoute.snapshot.params.tab == 'text'" (click)="setTab('text')">
+        Текст
+      </div>
+      <div class="item" [class.active]="activatedRoute.snapshot.params.tab == 'history'" (click)="setTab('history')">
         История
+      </div>
+      <div class="item" [class.active]="activatedRoute.snapshot.params.tab == 'friends'" (click)="setTab('friends')">
+        Друзья
       </div>
     </nav>
   </div>
   <div class="main">
     <div class="title">
-      Истроия
+      <span *ngIf="activatedRoute.snapshot.params.tab == 'history'">
+        История
+      </span>
+      <span *ngIf="activatedRoute.snapshot.params.tab == 'text'">
+        Текст
+      </span>
+      <span *ngIf="activatedRoute.snapshot.params.tab == 'user'">
+        Профиль
+      </span>
+      <span *ngIf="activatedRoute.snapshot.params.tab == 'friends'">
+        Друзья
+      </span>
       <div class="close">
         <img src="./assets/ui/icon/close.svg" (click)="closeSettings()" alt="">
       </div>
     </div>
-    <div class="items">
-      <div *ngFor="let item of svc.history; index as i " (click)="openText(i)" class="item">
-        <div class="left">
-          <div class="name">
-            {{item.name}}
+    <div class="page">
+      <div *ngIf="activatedRoute.snapshot.params.tab == 'history'" class="items">
+        <div *ngIf="svc.history.length == 0">
+          История пуста
+        </div>
+        <div *ngFor="let item of svc.history; index as i " class="item">
+          <div class="left">
+            <div class="name" (click)="openText(i)">
+              {{item.name}}
+            </div>
+            <div class="time">
+              Время: {{item.time}}
+            </div>
+            <div class="err">
+              Ошибки: {{item.err}}
+            </div>
           </div>
-          <div class="time">
-            Время: {{item.time}}
-          </div>
-          <div class="err">
-            Ошибки: {{item.err}}
+          <div class="right">
+            <div class="data">
+              {{item.date}}
+            </div>
+            <div class="close">
+              Удалить
+            </div>
           </div>
         </div>
-        <div class="right">
-          <div class="data">
-            {{item.date}}
+      </div>
+      <div *ngIf="activatedRoute.snapshot.params.tab == 'user'">
+        user
+      </div>
+      <div *ngIf="activatedRoute.snapshot.params.tab == 'text'" class="text">
+        <div *ngIf="svc.items.length == 0">
+          У вас пока нету текстов
+        </div>
+        <div *ngFor="let item of svc.items; index as i " class="item">
+          <div class="left">
+            <div class="name" (click)="openText(i)">
+              {{item.name}}
+            </div>
+            <div class="time">
+              Время: {{item.time}}
+            </div>
+            <div class="litters">
+              Букв: {{item.text.length}}
+            </div>
           </div>
-          <div class="close">
-            <img src="./assets/ui/icon/close.svg" (click)="svc.deleteHistoryItem(i)" alt="">
+          <div class="right">
+            <div class="close" (click)="svc.deleteTextItem(item.id)">
+              Удалить
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="activatedRoute.snapshot.params.tab == 'friends'" class="friends">
+        <div class="tabs">
+          <div [class.active]="tabsFriends == 'friends'" (click)="setTabsFriends('friends')" class="tab left">Друзья</div>
+          <div [class.active]="tabsFriends == 'friendRequests'" (click)="setTabsFriends('friendRequests')" class="tab middle">Заявки в друзья</div>
+          <div [class.active]="tabsFriends == 'blocked'" (click)="setTabsFriends('blocked')" class="tab right">Заблокированные</div>
+        </div>
+        <div *ngIf="tabsFriends == 'friends'" class="friendsItems">
+          <div *ngFor="let item of svc.friends" class="item">
+            <div class="left">
+              <div class="name">
+                {{item.login}}
+              </div>
+            </div>
+            <div class="right">
+              <div>Удалить</div>
+              <div>Заблокировать</div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="tabsFriends == 'friendRequests'" class="friendsItems">
+          <div *ngFor="let item of svc.friendRequests" class="item">
+            <div class="left">
+              <div class="name">
+                {{item.login}}
+              </div>
+            </div>
+            <div class="right">
+              <div class="accept">Принять</div>
+              <div>Отклоить</div>
+            </div>
           </div>
         </div>
       </div>

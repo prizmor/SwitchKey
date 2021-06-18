@@ -1,0 +1,14 @@
+<div class="message">
+  <span class="bell" (click)="isMessage()">
+  <img src="./assets/ui/icon/bell.svg" alt="">
+  <div *ngIf="svc.message.length" class="indicator">{{svc.message.length}}</div>
+</span>
+  <div *ngIf="message" class="messageModal">
+    <div class="title">Уведомления</div>
+    <div class="items">
+      <div *ngFor="let item of svc.message" class="item">
+        {{item.message}}
+      </div>
+    </div>
+  </div>
+</div>

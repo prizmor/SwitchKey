@@ -1,0 +1,8 @@
+<div class="button">
+  <span class="dots" (click)="settingsModal = !settingsModal">···</span>
+  <div *ngIf="settingsModal" class="settingsModal">
+    <div class="exit" (click)="logout()" >
+      Выйти
+    </div>
+  </div>
+</div>

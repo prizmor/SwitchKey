@@ -15,7 +15,7 @@
           <span [classList]="word.type"><span [class.stick]="word.stick">{{word.litter}}</span></span>
         </ng-container>
       </div>
-      <div class="button" *ngIf="svc.editMode"><app-button [onClick]="onClick"  [colorType]="'white'" [text]="'Старт'"></app-button></div>
+      <div class="button" *ngIf="svc.editMode"><input type="button" (click)="onClick()" value="Старт"></div>
     </div>
   </div>
 </div>

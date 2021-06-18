@@ -9,6 +9,8 @@ import {DataService} from "../data.service";
 })
 export class TextComponent implements OnDestroy {
 
+  save = setInterval(() => this.svc.editText(), 5000);
+
   constructor(private router: Router ,private activatedRoute: ActivatedRoute, public svc: DataService) {
     this.svc.setActiveData(this.activatedRoute.snapshot.params.id);
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -17,6 +19,7 @@ export class TextComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.svc.activeTextData.name = '';
+    clearInterval(this.save);
   }
 
   onChangeTime($event): void {
@@ -26,20 +29,20 @@ export class TextComponent implements OnDestroy {
       time = Number(time.join(''));
       $event.target.value = time;
       this.svc.activeTextData.time = time;
-    } else {
-      this.svc.setTime();
     }
   }
   onChangeText(): void {
-    this.svc.setText();
+
   }
 
   onClick(): void {
-    this.svc.editMode = false;
-    const time = Number(this.svc.activeTextData.time);
-    this.svc.time = time;
-    this.svc.start(time);
-    this.svc.transformArray();
+    if (this.svc.activeTextData.text.length != 0 && this.svc.activeTextData.time != 0 && this.svc.activeTextData.time != undefined) {
+      this.svc.editMode = false;
+      const time = Number(this.svc.activeTextData.time);
+      this.svc.time = time;
+      this.svc.start(time);
+      this.svc.transformArray();
+    }
   }
 
   @HostListener('document:keydown', ['$event'])
