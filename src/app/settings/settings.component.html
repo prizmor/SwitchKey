@@ -116,8 +116,8 @@
               </div>
             </div>
             <div class="right">
-              <div class="accept">Принять</div>
-              <div>Отклоить</div>
+              <div class="accept" (click)="acceptFriend(item.login, item.id)">Принять</div>
+              <div (click)="rejectFriend(item.login, item.id)">Отклоить</div>
             </div>
           </div>
         </div>

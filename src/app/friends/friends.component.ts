@@ -8,6 +8,7 @@ import {Component, HostListener, OnInit} from '@angular/core';
 export class FriendsComponent implements OnInit {
 
   friends = false;
+  addFriends = false;
 
   constructor() { }
 
@@ -18,6 +19,9 @@ export class FriendsComponent implements OnInit {
   onClick(e) {
     if (e != 'friendsList' && e != 'item' && e != 'friends' && e != '') {
       this.friends = false;
+    }
+    if (e == 'addFriends') {
+      this.addFriends = false;
     }
   }
 

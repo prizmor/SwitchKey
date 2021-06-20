@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {DataService} from "../data.service";
+import {SocketService} from "../socket.service";
 
 @Component({
   selector: 'app-settings',
@@ -11,7 +12,7 @@ export class SettingsComponent implements OnInit {
 
   tabsFriends = 'friends';
 
-  constructor(public router: Router, public svc: DataService, public activatedRoute: ActivatedRoute) {
+  constructor(public router: Router, public svc: DataService, public activatedRoute: ActivatedRoute, public socket: SocketService) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
 
@@ -21,6 +22,14 @@ export class SettingsComponent implements OnInit {
   setTab(tab: string): void {
     const url = '/settings/' + tab;
     this.router.navigate([url]);
+  }
+
+  acceptFriend(login: string, id: string): void {
+    this.socket.emit('acceptFriends', {login: login, id: id});
+  }
+
+  rejectFriend(login: string, id: string): void {
+    this.socket.emit('rejectFriend', {login: login, id: id});
   }
 
   openText(index: any): void {

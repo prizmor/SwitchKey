@@ -11,4 +11,8 @@
       <div class="statusGreen"></div>
     </div>
   </div>
+  <div class="addFriendsButton" (click)="addFriends = true">
+    Добавить в друзья
+  </div>
 </div>
+<app-add-friends *ngIf="addFriends"></app-add-friends>

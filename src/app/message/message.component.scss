@@ -61,10 +61,18 @@
       .item {
         cursor: pointer;
         border-top: #3E3E3E 1px solid;
-        height: 30px;
+        min-height: 30px;
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
+        padding: 0 16px;
+        .messageItem {
+
+        }
+        .delete {
+          color: $errTextColor;
+          font-size: 12px;
+        }
         &:hover {
           background: #363636;
         }

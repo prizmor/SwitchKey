@@ -16,18 +16,19 @@ export class MessageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  isMessage() {
+  isMessage(): void {
     this.message = !this.message;
-    if (!this.message) {
-      this.socket.emit('deleteMessage', {});
-      this.socket.listen('deleteMessageComplete').subscribe(data => {
-        this.svc.getMessage();
-      });
-    }
+  }
+
+  deleteMessage(index: any): void {
+    this.socket.emit('deleteMessage', {index: index});
+    this.socket.listen('deleteMessageComplete').subscribe(data => {
+      this.svc.getMessage();
+    });
   }
 
   @HostListener('window:click', ['$event.target.className'])
-  onClick(e) {
+  onClick(e): void {
     if (e != 'title' && e != 'indicator' && e != 'items' && e != 'item' && e != 'bell' && e != '') {
       this.message = false;
     }

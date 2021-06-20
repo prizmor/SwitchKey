@@ -6,8 +6,13 @@
   <div *ngIf="message" class="messageModal">
     <div class="title">Уведомления</div>
     <div class="items">
-      <div *ngFor="let item of svc.message" class="item">
-        {{item.message}}
+      <div *ngFor="let item of svc.message; index as i" class="item">
+        <div class="messageItem">
+          {{item.message}}
+        </div>
+        <div class="delete" (click)="deleteMessage(i)">
+          Удалить
+        </div>
       </div>
     </div>
   </div>

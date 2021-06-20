@@ -51,6 +51,7 @@ io.on("connection", (socket) => {
     socket.disconnect();
   } else {
     const parsedToken = JSON.parse(socket.handshake.auth.token);
+    console.log(parsedToken + 'sasdsd')
     const decodedData = jwt.verify(parsedToken, 'SECRET_KEY_RANDOM');
     User.findOne({_id: decodedData.userId}).then(data => {
       if (!data) {
@@ -76,54 +77,111 @@ io.on("connection", (socket) => {
   });
 
   socket.on('friendRequest', ({login, from}) => {
-    let user = connectedUsers.find(x => x.login === login);
-    if (user) {
-      User.findOne({login: login}).then(data => {
-        data.friendRequests.push({
-          id: uuidv4(),
-          login: from
-        });
-        data.message.unshift({
-          message: `${from} пригласил вас в друзья`,
-          type: 'friendRequest'
-        })
-        user.socket.emit('friendRequestMessage', {
-          id: uuidv4(),
-          login: from
-        });
-        data.save();
-        console.log('lol')
-      });
-    } else {
-      User.findOne({login: login}).then(data => {
-        data.friendRequests.push({
-          id: uuidv4(),
-          login: from
-        });
-        data.save();
-      });
-    }
+    User.findOne({login: login}).then(loginUser => {
+      if (!loginUser || login === from) {
+        socket.emit('message', {message: 'Не найден'});
+      } else {
+        let user = connectedUsers.find(x => x.login === login);
+        if (user) {
+          User.findOne({login: login}).then(data => {
+            if (!data.friendRequests.find(x => x.login === from)) {
+              data.friendRequests.push({
+                id: uuidv4(),
+                login: from
+              });
+              data.message.unshift({
+                message: `${from} пригласил вас в друзья`,
+                type: 'friendRequest'
+              })
+              user.socket.emit('message');
+              data.save();
+              socket.emit('messageFriendRequest', {message: 'Зарос отправлен'});
+            } else {
+              socket.emit('messageFriendRequest', {message: 'Вы уже отправили запрос'});
+            }
+          });
+        } else {
+          User.findOne({login: login}).then(data => {
+            if (data.friendRequests.find(x => x.login === from)) {
+              data.friendRequests.push({
+                id: uuidv4(),
+                login: from
+              });
+              data.save();
+              socket.emit('messageFriendRequest', {message: 'Зарос отправлен'});
+            } else {
+              socket.emit('messageFriendRequest', {message: 'Вы уже отправили запрос'});
+            }
+          });
+        }
+      }
+    })
   });
 
   socket.on('deleteMessage', (data) => {
     let connectUser = connectedUsers.find(x => x.socketId === socket.id);
     User.findOne({login : connectUser.login}).then(res => {
-      res.message = [];
+      res.message.splice(data.index, 1);
       res.save();
-      socket.emit('deleteMessageComplete');
+      socket.emit('message');
     });
   });
+
+  socket.on('acceptFriends', (data) => {
+    let connectUser = connectedUsers.find(x => x.socketId === socket.id);
+    User.findOne({login: connectUser.login}).then((dataConnectUser) => {
+      let index = dataConnectUser.friendRequests.findIndex(x => x.id === data.id);
+      dataConnectUser.friendRequests.splice(index, 1);
+      dataConnectUser.friends.push({
+        login: data.login
+      });
+      dataConnectUser.message.unshift({
+        message: `${data.login} теперь у вас в друзьях`,
+        type: 'acceptFriends'
+      });
+      socket.emit('message');
+      dataConnectUser.save();
+    })
+    User.findOne({login: data.login}).then((dataLogin) => {
+      dataLogin.friends.push({
+        login: connectUser.login
+      });
+      dataLogin.message.unshift({
+        message: `${connectUser.login} теперь у вас в друзьях`,
+        type: 'acceptFriends'
+      });
+      socket.emit('message');
+      dataLogin.save();
+    })
+  });
+
+  socket.on('rejectFriend', (data) => {
+    let connectUser = connectedUsers.find(x => x.socketId === socket.id);
+    User.findOne({login: connectUser.login}).then((dataConnectUser) => {
+      let index = dataConnectUser.friendRequests.findIndex(x => x.id === data.id);
+      dataConnectUser.friendRequests.splice(index, 1);
+      dataConnectUser.message.unshift({
+        message: `Вы отклонили запров дружбу от ${data.login}`,
+        type: 'acceptFriends'
+      });
+      socket.emit('message');
+      dataConnectUser.save();
+    })
+    User.findOne({login: data.login}).then((dataLogin) => {
+      dataLogin.message.unshift({
+        message: `Пользователь ${connectUser.login} отклонил запрос в друзья`,
+        type: 'acceptFriends'
+      });
+      socket.emit('message');
+      dataLogin.save();
+    })
+  })
 
   socket.on('disconnect', (data) => {
     let user = connectedUsers.findIndex(x => x.socketId === socket.id);
     connectedUsers.splice(user, 1);
     console.log('disconnect');
   });
-
-
-
-
-
 
 });
 

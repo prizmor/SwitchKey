@@ -58,8 +58,10 @@ export class DataService {
     if (JSON.parse(localStorage.getItem('login')) == 'admin') {
       this.ws.emit('friendRequest', {login: 'prizmor', from: 'admin'});
     }
-    this.ws.listen('friendRequestMessage').subscribe(data => {
+    this.ws.listen('message').subscribe(data => {
       this.getMessage();
+      this.getFriendRequests();
+      this.getFriends();
     });
     this.initApp();
   }
@@ -214,7 +216,7 @@ export class DataService {
 
   getFriends(): void {
     this.api.getFriends().subscribe(res => {
-      this.friends = res.freands;
+      this.friends = res.friends;
     });
   }
 

@@ -1,0 +1,14 @@
+<div class="addFriends">
+  <div class="window">
+    <div class="title">
+      Кого вы хотите пригласить?
+    </div>
+    <div class="mine">
+      <input type="text" class="text" [(ngModel)]="userLogin" placeholder="Логин">
+      <input type="button" class="button" value="Найти" (click)="addFriends()">
+    </div>
+    <div class="message">
+      {{message}}
+    </div>
+  </div>
+</div>

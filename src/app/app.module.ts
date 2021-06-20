@@ -28,6 +28,7 @@ import { AuthComponent } from './auth/auth.component';
 import { FriendsComponent } from './friends/friends.component';
 import { MessageComponent } from './message/message.component';
 import { DotsComponent } from './dots/dots.component';
+import { AddFriendsComponent } from './add-friends/add-friends.component';
 
 
 // AoT requires an exported function for factories
@@ -46,7 +47,7 @@ const appRoutes: Routes =[
 ];
 
 @NgModule({
-  declarations: [AppComponent, TextFieldComponent, ButtonComponent, SquareButtonComponent, StartDisplayComponent, AddTextComponent, VoidComponent, TextComponent, StatisticsComponent, SettingsComponent, AuthComponent, FriendsComponent, MessageComponent, DotsComponent],
+  declarations: [AppComponent, TextFieldComponent, ButtonComponent, SquareButtonComponent, StartDisplayComponent, AddTextComponent, VoidComponent, TextComponent, StatisticsComponent, SettingsComponent, AuthComponent, FriendsComponent, MessageComponent, DotsComponent, AddFriendsComponent],
   imports: [
     BrowserModule,
     FormsModule,
