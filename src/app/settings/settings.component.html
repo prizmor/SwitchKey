@@ -103,8 +103,8 @@
               </div>
             </div>
             <div class="right">
-              <div>Удалить</div>
-              <div>Заблокировать</div>
+              <div (click)="deleteFriend(item.login)">Удалить</div>
+              <div (click)="blocked(item.login)">Заблокировать</div>
             </div>
           </div>
         </div>
@@ -118,6 +118,18 @@
             <div class="right">
               <div class="accept" (click)="acceptFriend(item.login, item.id)">Принять</div>
               <div (click)="rejectFriend(item.login, item.id)">Отклоить</div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="tabsFriends == 'blocked'" class="blocked">
+          <div *ngFor="let item of svc.blocked" class="item">
+            <div class="left">
+              <div class="name">
+                {{item.login}}
+              </div>
+            </div>
+            <div class="right">
+              <div class="accept" (click)="unblock(item.login)">Разблокировать</div>
             </div>
           </div>
         </div>

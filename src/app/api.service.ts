@@ -83,4 +83,12 @@ export class ApiService {
   getMessage(): any {
     return this.http.get<any>(this.baseUrl + `/message`, this.options);
   }
+
+  getBlockedUser(): any {
+    return this.http.get<any>(this.baseUrl + `/blocked`, this.options);
+  }
+
+  getProfile(login: string): any {
+    return this.http.get<any>(this.baseUrl + `/profile/` + login, this.options);
+  }
 }

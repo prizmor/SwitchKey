@@ -25,6 +25,7 @@ export class AddFriendsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
   }
 
 }

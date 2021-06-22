@@ -27,7 +27,7 @@
     <div class="session">
       <div class="name">
         {{login()}}
-        <div [class.statusGreen]="status" [class.statusGray]="!status"  (click)="isStatus()"></div>
+        <div [class.statusGreen]="svc.profile.online" [class.statusGray]="!svc.profile.online"  (click)="isStatus()"></div>
       </div>
       <app-message></app-message>
       <app-dots></app-dots>

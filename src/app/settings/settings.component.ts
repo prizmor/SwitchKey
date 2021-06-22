@@ -28,6 +28,10 @@ export class SettingsComponent implements OnInit {
     this.socket.emit('acceptFriends', {login: login, id: id});
   }
 
+  unblock(login: string): void {
+    this.socket.emit('unblockUser', {login: login});
+  }
+
   rejectFriend(login: string, id: string): void {
     this.socket.emit('rejectFriend', {login: login, id: id});
   }
@@ -43,6 +47,14 @@ export class SettingsComponent implements OnInit {
     } else {
       this.router.navigate(['/']);
     }
+  }
+
+  blocked(login: string): void {
+    this.socket.emit('blockedUser', {login: login});
+  }
+
+  deleteFriend(login: string): void {
+    this.socket.emit('deleteFriend', {login: login});
   }
 
   setTabsFriends(tab: string): void {

@@ -4,11 +4,12 @@
     <input type="text" placeholder="Поиск">
   </div>
   <div class="friendsList">
-    <div class="item">
+    <div *ngFor="let item of svc.friends" class="item">
       <div class="name">
-        Prizmor
+        {{item.login}}
       </div>
-      <div class="statusGreen"></div>
+      <div *ngIf="item.online" class="statusGreen"></div>
+      <div *ngIf="!item.online" class="statusGray"></div>
     </div>
   </div>
   <div class="addFriendsButton" (click)="addFriends = true">

@@ -15,7 +15,6 @@ export class AppComponent implements OnInit {
   textName = '';
   settingsModal = false;
   friends = false;
-  status = true;
   message = true;
 
   constructor(public router: Router, public svc: DataService, private  socket: SocketService) {
@@ -54,7 +53,8 @@ export class AppComponent implements OnInit {
   }
 
   isStatus(): void {
-    this.status = !this.status;
+    this.socket.emit('online', {});
+
   }
 
   isMessage(): void {

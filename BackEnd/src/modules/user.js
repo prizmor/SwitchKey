@@ -9,7 +9,9 @@ const User = new Schema({
   status: {type: String},
   friendRequests: [{type: Object}],
   friends: [{type: Object}],
-  message: [{type: Object}]
+  message: [{type: Object}],
+  online: {type: Boolean, default: false},
+  blackList: [{type: Object}]
 });
 
 module.exports = model('User', User);

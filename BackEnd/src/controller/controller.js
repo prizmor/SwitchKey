@@ -323,12 +323,21 @@ class controller {
       if (!user) {
         return res.status(500).json(`server error`);
       }
-      return res.status(200).json({friends: user.friends})
+      let friends = [];
+      for (let i = 0; i < user.friends.length; i++) {
+        let friend = await User.findOne({login: user.friends[i].login});
+        friends.push({
+          login: friend.login,
+          online: friend.online
+        });
+      }
+      return res.status(200).json({friends: friends})
     } catch (e) {
       console.log(e);
       res.status(400).json({message: 'Friends error'})
     }
   }
+
   async getMessage(req, res) {
     try {
       const userId = req.user.userId;
@@ -340,6 +349,40 @@ class controller {
     } catch (e) {
       console.log(e);
       res.status(400).json({message: 'Message error'})
+    }
+  }
+
+  async getBlocked(req, res) {
+    try {
+      const userId = req.user.userId;
+      const user = await User.findOne({_id: userId});
+      if (!user) {
+        return res.status(500).json(`server error`);
+      }
+      return res.status(200).json({blocked: user.blackList})
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({message: 'Blocked error'})
+    }
+  }
+
+  async getProfile(req, res) {
+    try {
+      const userId = req.user.userId;
+      const { login } = req.params;
+      const user = await User.findOne({_id: userId});
+      if (!user) {
+        return res.status(500).json(`server error`);
+      }
+      let profile = await User.findOne({login: login});
+      return res.status(200).json({profile: {
+          login: profile.login,
+          online: profile.online,
+          history: profile.history
+        }})
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({message: 'Profile error'})
     }
   }
 }

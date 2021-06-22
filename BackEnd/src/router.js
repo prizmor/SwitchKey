@@ -25,7 +25,10 @@ router.delete('/text/:id', loginMiddleware, controller.deleteText);//
 //друзья
 router.get('/friendRequests', loginMiddleware, controller.friendRequests);
 router.get('/friends', loginMiddleware, controller.getFriends);
+router.get('/blocked', loginMiddleware, controller.getBlocked)
 //Уведомления
 router.get('/message', loginMiddleware, controller.getMessage);
+//профиль
+router.get('/profile/:login', loginMiddleware, controller.getProfile)
 
 module.exports = router;

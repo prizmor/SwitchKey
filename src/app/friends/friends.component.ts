@@ -1,4 +1,5 @@
 import {Component, HostListener, OnInit} from '@angular/core';
+import {DataService} from "../data.service";
 
 @Component({
   selector: 'app-friends',
@@ -10,7 +11,7 @@ export class FriendsComponent implements OnInit {
   friends = false;
   addFriends = false;
 
-  constructor() { }
+  constructor(public svc: DataService) { }
 
   ngOnInit(): void {
   }

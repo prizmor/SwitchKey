@@ -17,6 +17,7 @@ export class DataService {
   friends = [];
   message = [];
   friendRequests = [];
+  blocked = [];
   activeTextData = {
     name: '',
     id: '',
@@ -34,6 +35,9 @@ export class DataService {
   public loginValue = '';
   public passwordValue = '';
   public emailValue = '';
+  profile: any = {
+    online: false
+  };
   errorsFormAuth = {
     login: '',
     password: '',
@@ -58,10 +62,18 @@ export class DataService {
     if (JSON.parse(localStorage.getItem('login')) == 'admin') {
       this.ws.emit('friendRequest', {login: 'prizmor', from: 'admin'});
     }
-    this.ws.listen('message').subscribe(data => {
+    this.ws.listen('message').subscribe(() => {
       this.getMessage();
       this.getFriendRequests();
       this.getFriends();
+      this.getBlocked();
+    });
+    this.ws.listen('resetFriends').subscribe(() => {
+      this.getFriends();
+      this.getBlocked();
+    });
+    this.ws.listen('resetProfile').subscribe(() => {
+      this.getProfile(JSON.parse(localStorage.getItem('login')));
     });
     this.initApp();
   }
@@ -80,6 +92,7 @@ export class DataService {
     this.getFriends();
     this.getFriendRequests();
     this.getMessage();
+    this.getBlocked();
   }
 
   setActiveData(id: string): void {
@@ -192,6 +205,13 @@ export class DataService {
     });
   }
 
+  getProfile(login: string): void {
+    this.api.getProfile(login).subscribe(data => {
+      this.profile = data.profile;
+    });
+  }
+
+
   login() {
     const errors = (data) => {
       this.errorsFormAuth.api = data.error.message;
@@ -229,6 +249,12 @@ export class DataService {
   getMessage(): void {
     this.api.getMessage().subscribe(res => {
       this.message = res.message;
+    });
+  }
+
+  getBlocked(): void {
+    this.api.getBlockedUser().subscribe(res => {
+      this.blocked = res.blocked;
     });
   }
 }

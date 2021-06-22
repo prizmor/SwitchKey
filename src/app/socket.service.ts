@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
 import {Observable} from "rxjs";
+import {ApiService} from "./api.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +12,14 @@ export class SocketService {
   readonly uri: string = 'ws://localhost:5000';
   socketConnection = true;
 
-  constructor() {}
+  constructor(public api: ApiService) {}
 
   connect(token: string) {
     if (token) {
       this.socket = io(this.uri, {
         reconnectionDelayMax: 10000,
         auth: {
-          token: token
+          token: JSON.parse(token)
         },
       });
       this.socket.on("disconnect", (reason) => {
