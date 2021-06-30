@@ -22,6 +22,7 @@ function createWindow(): BrowserWindow {
     width: size.width,
     height: size.height,
     fullscreen: true,
+    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve) ? true : false,
